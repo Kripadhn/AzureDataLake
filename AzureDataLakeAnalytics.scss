@@ -1,0 +1,16 @@
+// Declare external data source for Data Lake Store
+DECLARE @inputFile string = "/input/data.txt";
+
+// Read the data from Data Lake Store
+@data = EXTRACT column1 string, column2 string
+FROM @inputFile
+USING Extractors.Text();
+
+// Perform some processing on the data
+@result = SELECT column1, column2
+FROM @data;
+
+// Output the result to a file in Data Lake Store
+OUTPUT @result
+TO "/output/result.csv"
+USING Outputters.Csv();
